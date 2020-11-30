@@ -26,10 +26,10 @@ import tempfile
 CURL = "/usr/bin/curl"
 DITTO = "/usr/bin/ditto"
 PKGUTIL = "/usr/sbin/pkgutil"
-DEFAULT_BASEURL = "https://www.python.org/ftp/python/%s/python-%s-macosx%s.pkg"
+DEFAULT_BASEURL = "https://www.python.org/ftp/python/%s/python-%s%s-macosx%s.pkg"
 DEFAULT_PYTHON_VERSION = "2.7.15"
 DEFAULT_OS_VERSION = "10.9"
-
+DEFAULT_CANDIDATE_VERSION = ""
 
 class FrameworkGetter(object):
     """Handles getting the Python.org pkg and extracting the framework"""
@@ -39,10 +39,12 @@ class FrameworkGetter(object):
 
     def __init__(
         self,
+        candidate_version=DEFAULT_CANDIDATE_VERSION,
         python_version=DEFAULT_PYTHON_VERSION,
         os_version=DEFAULT_OS_VERSION,
         base_url=DEFAULT_BASEURL,
     ):
+        self.candidate_version = candidate_version
         self.python_version = python_version
         self.os_version = os_version
         self.base_url = base_url
@@ -61,6 +63,7 @@ class FrameworkGetter(object):
         url = self.base_url % (
             self.python_version,
             self.python_version,
+            self.candidate_version,
             self.os_version,
         )
         (file_handle, destination_path) = tempfile.mkstemp()

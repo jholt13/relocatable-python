@@ -55,6 +55,13 @@ def main():
         "https://www.python.org/downloads/mac-osx/",
     )
     parser.add_option(
+        "--candidate-version",
+        default=get.DEFAULT_CANDIDATE_VERSION,
+        help="Override the version of the Python framework to be downloaded. (For Beta/RC) "
+        "See available versions at "
+        "https://www.python.org/downloads/mac-osx/",
+    )
+    parser.add_option(
         "--pip-requirements",
         default=None,
         help="Path to a pip freeze requirements.txt file that describes extra "
@@ -71,6 +78,7 @@ def main():
     options, _arguments = parser.parse_args()
 
     framework_path = get.FrameworkGetter(
+        candidate_version=options.candidate_version,
         python_version=options.python_version,
         os_version=options.os_version,
         base_url=options.baseurl,
